@@ -1,17 +1,12 @@
 from flask import Flask, render_template_string
 import requests
 from bs4 import BeautifulSoup
-from nltk.tokenize import sent_tokenize
-import nltk
 
 app = Flask(__name__)
 
-# Download NLTK punkt tokenizer on startup
-nltk.download('punkt')
-
 def summarize(text, max_sentences=2):
-    sentences = sent_tokenize(text)
-    return ' '.join(sentences[:max_sentences]) if sentences else text
+    sentences = text.split('. ')
+    return '. '.join(sentences[:max_sentences]) + ('.' if len(sentences) >= max_sentences else '')
 
 def get_top_news():
     base_url = "https://www.thedailystar.net"
